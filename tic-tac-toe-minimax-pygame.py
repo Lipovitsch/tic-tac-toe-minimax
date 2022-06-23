@@ -33,17 +33,10 @@ def render_board(board, graphical_board):
                 graphical_board[i][j][1] = O_IMG.get_rect(center=(j*300+150, i*300+150))
 
 
-def insert_letter(board, letter, pos):
-    board[pos] = letter
-
-
-def add_XO(board, graphical_board):
+def player_move(board, graphical_board):
     current_pos = pygame.mouse.get_pos()
-    print(current_pos[1], current_pos[0])
     converted_x = (current_pos[0] - 16) / 900 * 3
     converted_y = (current_pos[1]) / 900 * 3
-    print(converted_y, converted_x)
-    print(math.floor(converted_y), math.floor(converted_x))
     if board[math.floor(converted_y)*3 + math.floor(converted_x) + 1] == ' ':
         board[math.floor(converted_y)*3 + math.floor(converted_x) + 1] = 'O'
 
@@ -55,6 +48,10 @@ def add_XO(board, graphical_board):
                 SCREEN.blit(graphical_board[i][j][0], graphical_board[i][j][1])
     
     return board
+
+
+def insert_letter(board, letter, pos):
+    board[pos] = letter
 
 
 def is_winner(board, letter):
@@ -279,7 +276,7 @@ def main():
                         pygame.display.update()
                     continue
                 
-                board = add_XO(board, graphical_board)
+                board = player_move(board, graphical_board)
                 pygame.display.update()
 
                 if check_win(board, graphical_board) is not None:
