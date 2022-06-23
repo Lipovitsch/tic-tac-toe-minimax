@@ -1,4 +1,5 @@
 import pygame, sys
+import math
 
 pygame.init()
 
@@ -38,10 +39,13 @@ def insert_letter(board, letter, pos):
 
 def add_XO(board, graphical_board):
     current_pos = pygame.mouse.get_pos()
-    converted_x = (current_pos[0] - 65) / 835 * 2
-    converted_y = (current_pos[1]) / 835 * 2
-    if board[round(converted_y)*3 + round(converted_x) + 1] == ' ':
-        board[round(converted_y)*3 + round(converted_x) + 1] = 'O'
+    print(current_pos[1], current_pos[0])
+    converted_x = (current_pos[0] - 16) / 900 * 3
+    converted_y = (current_pos[1]) / 900 * 3
+    print(converted_y, converted_x)
+    print(math.floor(converted_y), math.floor(converted_x))
+    if board[math.floor(converted_y)*3 + math.floor(converted_x) + 1] == ' ':
+        board[math.floor(converted_y)*3 + math.floor(converted_x) + 1] = 'O'
 
     render_board(board, graphical_board)
 
@@ -183,7 +187,7 @@ def comp_move_minimax(board: dict, graphical_board):
 def check_win(board, graphical_board):
     winner = None
     for row in range(0, 3):
-        if((board[row*3+0+1] == board[row*3+1+1] == board[row*3+2+1]) and (board [row*3+0+1] is not ' ')):
+        if((board[row*3+0+1] == board[row*3+1+1] == board[row*3+2+1]) and (board [row*3+0+1] != ' ')):
             winner = board[row*3+0+1]
             for i in range(0, 3):
                 graphical_board[row][i][0] = pygame.image.load(f"assets/Winning {winner}.png")
@@ -192,7 +196,7 @@ def check_win(board, graphical_board):
             return winner
 
     for col in range(0, 3):
-        if((board[0*3+col+1] == board[1*3+col+1] == board[2*3+col+1]) and (board[0*3+col+1] is not ' ')):
+        if((board[0*3+col+1] == board[1*3+col+1] == board[2*3+col+1]) and (board[0*3+col+1] !=' ')):
             winner =  board[0*3+col+1]
             for i in range(0, 3):
                 graphical_board[i][col][0] = pygame.image.load(f"assets/Winning {winner}.png")
@@ -200,7 +204,7 @@ def check_win(board, graphical_board):
             pygame.display.update()
             return winner
    
-    if (board[1] == board[5] == board[9]) and (board[1] is not ' '):
+    if (board[1] == board[5] == board[9]) and (board[1] != ' '):
         winner =  board[1]
         graphical_board[0][0][0] = pygame.image.load(f"assets/Winning {winner}.png")
         SCREEN.blit(graphical_board[0][0][0], graphical_board[0][0][1])
@@ -211,7 +215,7 @@ def check_win(board, graphical_board):
         pygame.display.update()
         return winner
           
-    if (board[3] == board[5] == board[7]) and (board[3] is not ' '):
+    if (board[3] == board[5] == board[7]) and (board[3] != ' '):
         winner =  board[3]
         graphical_board[0][2][0] = pygame.image.load(f"assets/Winning {winner}.png")
         SCREEN.blit(graphical_board[0][2][0], graphical_board[0][2][1])
@@ -222,7 +226,7 @@ def check_win(board, graphical_board):
         pygame.display.update()
         return winner
     
-    if winner is None:
+    if winner == None:
         for i in range(len(board)//3):
             for j in range(len(board)//3):
                 if board[i*3+j+1] == ' ':
