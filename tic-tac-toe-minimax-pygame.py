@@ -243,9 +243,6 @@ def main():
 
     game_finished = False
     user_starts = True
-    if user_starts == False:
-        board = comp_move_minimax(board, graphical_board)
-        pygame.display.update()
 
     while True:
         for event in pygame.event.get():
@@ -269,6 +266,7 @@ def main():
                     SCREEN.blit(BOARD, (64, 64))
 
                     game_finished = False
+                    user_starts = not user_starts
                     if user_starts == False:
                         board = comp_move_minimax(board, graphical_board)
                         pygame.display.update()
